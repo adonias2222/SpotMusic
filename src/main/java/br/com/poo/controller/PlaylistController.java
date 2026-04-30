@@ -1,4 +1,4 @@
-package br.com.poo.controller;
+﻿package br.com.poo.controller;
 
 import br.com.poo.domain.Playlist;
 import br.com.poo.service.PlaylistService;
@@ -22,18 +22,18 @@ public class PlaylistController {
     @GetMapping("/listar")
     public ModelAndView listar(ModelMap model) {
         model.addAttribute("playlists", playlistService.recuperar());
-        return new ModelAndView("/playlist/list", model);
+        return new ModelAndView("playlist/list", model);
     }
 
     @GetMapping("/cadastro")
     public String preSalvar(@ModelAttribute("playlist") Playlist playlist) {
-        return "/playlist/add";
+        return "playlist/add";
     }
 
     @PostMapping("/salvar")
     public String salvar(@Valid @ModelAttribute("playlist") Playlist playlist, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return "/playlist/add";
+            return "playlist/add";
         }
 
         playlistService.salvar(playlist);
@@ -45,13 +45,13 @@ public class PlaylistController {
     public ModelAndView preAtualizar(@PathVariable("id") long id, ModelMap model) {
         Playlist playlist = playlistService.recuperarPorId(id);
         model.addAttribute("playlist", playlist);
-        return new ModelAndView("/playlist/add", model);
+        return new ModelAndView("playlist/add", model);
     }
 
     @PutMapping("/salvar")
     public String atualizar(@Valid @ModelAttribute("playlist") Playlist playlist, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return "/playlist/add";
+            return "playlist/add";
         }
 
         playlistService.atualizar(playlist);
@@ -62,8 +62,9 @@ public class PlaylistController {
     @GetMapping("/{id}/remover")
     public String remover(@PathVariable("id") long id, RedirectAttributes attr) {
         playlistService.excluir(id);
-        attr.addFlashAttribute("mensagem", "Playlist excluída com sucesso.");
+        attr.addFlashAttribute("mensagem", "Playlist excluÃ­da com sucesso.");
         return "redirect:/playlists/listar";
     }
 
 }
+

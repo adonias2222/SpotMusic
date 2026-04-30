@@ -1,4 +1,4 @@
-package br.com.poo.controller;
+﻿package br.com.poo.controller;
 
 import br.com.poo.domain.Musica;
 import br.com.poo.service.MusicaService;
@@ -23,7 +23,7 @@ public class MusicaController {
     public ModelAndView listar(@PathVariable("playlistId") long playlistId, ModelMap model) {
         model.addAttribute("musicas", musicaService.recuperarPorPlaylist(playlistId));
         model.addAttribute("playlistId", playlistId);
-        return new ModelAndView("/musica/list", model);
+        return new ModelAndView("musica/list", model);
     }
 
     @GetMapping("/cadastro")
@@ -31,7 +31,7 @@ public class MusicaController {
                             @PathVariable("playlistId") long playlistId,
                             ModelMap model) {
         model.addAttribute("playlistId", playlistId);
-        return "/musica/add";
+        return "musica/add";
     }
 
     @PostMapping("/salvar")
@@ -42,11 +42,11 @@ public class MusicaController {
                          RedirectAttributes attr) {
         if (result.hasErrors()) {
             model.addAttribute("playlistId", playlistId);
-            return "/musica/add";
+            return "musica/add";
         }
 
         musicaService.salvar(musica, playlistId);
-        attr.addFlashAttribute("mensagem", "Música salva com sucesso.");
+        attr.addFlashAttribute("mensagem", "MÃºsica salva com sucesso.");
         return "redirect:/playlists/" + playlistId + "/musicas/listar";
     }
 
@@ -57,7 +57,7 @@ public class MusicaController {
         Musica musica = musicaService.recuperarPorPlaylistIdEMusicaId(playlistId, musicaId);
         model.addAttribute("musica", musica);
         model.addAttribute("playlistId", playlistId);
-        return new ModelAndView("/musica/add", model);
+        return new ModelAndView("musica/add", model);
     }
 
     @PutMapping("/salvar")
@@ -68,11 +68,11 @@ public class MusicaController {
                             RedirectAttributes attr) {
         if (result.hasErrors()) {
             model.addAttribute("playlistId", playlistId);
-            return "/musica/add";
+            return "musica/add";
         }
 
         musicaService.atualizar(musica, playlistId);
-        attr.addFlashAttribute("mensagem", "Música atualizada com sucesso.");
+        attr.addFlashAttribute("mensagem", "MÃºsica atualizada com sucesso.");
         return "redirect:/playlists/" + playlistId + "/musicas/listar";
     }
 
@@ -81,7 +81,8 @@ public class MusicaController {
                           @PathVariable("musicaId") long musicaId,
                           RedirectAttributes attr) {
         musicaService.excluir(playlistId, musicaId);
-        attr.addFlashAttribute("mensagem", "Música excluída com sucesso.");
+        attr.addFlashAttribute("mensagem", "MÃºsica excluÃ­da com sucesso.");
         return "redirect:/playlists/" + playlistId + "/musicas/listar";
     }
 }
+
